@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RadioTest {
 
     Radio radio;
+
+    private int maxVolume = 100;
     @BeforeEach
     void setUp(){
         radio = new Radio();
@@ -18,16 +20,19 @@ class RadioTest {
     void constructorTest(){
         assertEquals(0, radio.getCurrentVolume());
         assertEquals(0, radio.getCurrentStation());
+        radio = new Radio(100);
+        radio.prevStation();
+        assertEquals(99, radio.getCurrentStation());
     }
 
     @Test
     void increaseVolumeTest(){
         radio.increaseVolume();
         assertEquals(1, radio.getCurrentVolume());
-        for(int i = 0; i < 11; i++){
+        for(int i = 0; i < maxVolume; i++){
             radio.increaseVolume();
         }
-        assertEquals(10, radio.getCurrentVolume());
+        assertEquals(maxVolume, radio.getCurrentVolume());
     }
 
     @Test
@@ -35,11 +40,11 @@ class RadioTest {
         radio.decreaseVolume();
         assertEquals(0, radio.getCurrentVolume());
 
-        for(int i = 0; i < 11; i++){
+        for(int i = 0; i < maxVolume; i++){
             radio.increaseVolume();
         }
         radio.decreaseVolume();
-        assertEquals(9, radio.getCurrentVolume());
+        assertEquals(maxVolume-1, radio.getCurrentVolume());
     }
 
     @Test
